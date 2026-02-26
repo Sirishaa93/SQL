@@ -1,0 +1,16 @@
+SELECT ROUND(AVG(LAT_N), 4)
+FROM (
+    SELECT LAT_N
+    FROM STATION
+    ORDER BY LAT_N
+) AS ordered
+WHERE (
+    SELECT COUNT(*)
+    FROM STATION s
+    WHERE s.LAT_N <= ordered.LAT_N
+) >= (SELECT COUNT(*)/2 FROM STATION)
+AND (
+    SELECT COUNT(*)
+    FROM STATION s
+    WHERE s.LAT_N >= ordered.LAT_N
+) >= (SELECT COUNT(*)/2 FROM STATION);
